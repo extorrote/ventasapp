@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ business.commercial_name }} - Detalles</title>
+  <link rel="stylesheet" href="{% static 'css/dashboard_business_y_details.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/headers.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/swipers.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/footers.css'%}">
+
+
+  <link rel="stylesheet" href="{%static '/fuentes/fuentes.css'%}"><!--ESTO ES PARA CARGAR FUENTES NUEVAS-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/><!--swiper-->
+
+  <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+  </div>
+</header>
+
+<div class="body">
+  <ul class="product-grid">
+    <li class="product">
+      <h3 class="title">{{ business.commercial_name }}</h3>
+
+      <!-- Swiper Container -->
+      <div class="swiper swiper-container mySwiper-{{ business.id }}">
+        <div class="swiper-wrapper">
+          {% if business.image1 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image1.url }}" alt="Image 1" onclick="openLightbox('{{ business.image1.url }}')">
+            </div>
+          {% endif %}
+          {% if business.image2 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image2.url }}" alt="Image 2" onclick="openLightbox('{{ business.image2.url }}')">
+            </div>
+          {% endif %}
+          {% if business.image3 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image3.url }}" alt="Image 3" onclick="openLightbox('{{ business.image3.url }}')">
+            </div>
+          {% endif %}
+          {% if business.image4 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image4.url }}" alt="Image 4" onclick="openLightbox('{{ business.image4.url }}')">
+            </div>
+          {% endif %}
+          {% if business.image5 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image5.url }}" alt="Image 5" onclick="openLightbox('{{ business.image5.url }}')">
+            </div>
+          {% endif %}
+          {% if business.image6 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image6.url }}" alt="Image 6" onclick="openLightbox('{{ business.image6.url }}')">
+            </div>
+          {% endif %}
+          {% if business.image7 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image7.url }}" alt="Image 7" onclick="openLightbox('{{ business.image7.url }}')">
+            </div>
+          {% endif %}
+          {% if business.image8 %}
+            <div class="swiper-slide">
+              <img src="{{ business.image8.url }}" alt="Image 8" onclick="openLightbox('{{ business.image8.url }}')">
+            </div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Business Info -->
+      <div class="business-info">
+        <div><em>Ciudad:</em> {{ business.get_city_display }}</div>
+        <div><em>Horario:</em> {{ business.opening_time|date:"H:i" }} - {{ business.closing_time|date:"H:i" }}</div>
+        <div><em>Días Cerrado:</em> {{ business.get_closed_days_display|default:"Ninguno" }}</div>
+        <div><em>Tipo de Negocio:</em> {{ business.get_tipos_display|default:"No especificado" }}</div>
+        <div><em>Contacto:</em> {{ business.reservations_whatsapp }} <a href="https://wa.me/{{ business.reservations_whatsapp }}" class="social-icon whatsapp whatsapp-details-section"></a></div>
+        <div><em>Email:</em> {{ business.reservations_email }}</div>
+        <div><em>Promociones Actuales:</em> {{ business.current_promotions|default:"Ninguna" }}</div>
+        <div><em>Dirección:</em> {{ business.address }}</div>
+        {#<div><em>Sitio Web:</em> <a href="{{ business.website }}" target="_blank">{{ business.website|default:"No disponible" }}</a></div>#}
+      </div>
+  
+      <div class="div-descripcion">
+        <em>Descripción:</em>
+        <p>{{ business.description }}</p>
+      </div>
+
+
+        {% if business.google_maps %}
+        <div class="google_maps"> {{business.google_maps|safe}}</div>
+        {%endif%}
+
+      <div class="botones-reservar carrito">
+                    
+            {%if business.tipos_de_negocio == 'hoteles' %}
+             <a href="{% url 'habitacion_hotel' business.id %}" class="btn btn-primary">
+            Habitaciones
+            </a>
+              {%elif business.tipos_de_negocio == 'resorts_todo_incluido'%}
+                <a href="{% url 'habitacion_todo_incluido' business.id %}" class="btn btn-primary">
+                Habitaciones {%comment%}todo incluido {%endcomment%}
+                </a>
+
+              {%elif business.tipos_de_negocio == 'resorts_solo_adultos'%}{%comment%}RESORT ADULTOS {%endcomment%}
+              <a class="btn btn-primary" href="{% url 'habitaciones_solo_adultos' business.id %}"> Habitaciones</a>
+
+              {%elif business.tipos_de_negocio == 'resorts_familiares'%}{%comment%}RESORT FAMILIAR {%endcomment%}
+                        <a href="{% url 'habitacion_resort_familiar' business.id %}" class="btn btn-primary"> Habitaciones</a>
+
+              {%elif business.tipos_de_negocio == 'hoteles_boutique'%}{%comment%} HOTEL BOUTIQUE {%endcomment%}
+                        <a href="{% url 'hotel_boutique' business.id %}" class="btn btn-primary">Habitaciones</a>
+                        
+              {%elif business.tipos_de_negocio == 'hostales'%}{%comment%} HOOSTAL {%endcomment%}
+                          <a href="{% url 'habitacion_hostal' business.id %}" class="btn btn-primary">Habitaciones</a>
+                      
+              {%elif business.tipos_de_negocio == 'departamentos_casas_vacacionales'%}{%comment%} DEPAS CASAS VACACIONALES {%endcomment%}
+                          <a href="{% url 'departamentos_casas_vacacionales' business.id %}" class="btn btn-primary">Propiedades</a>
+              
+              {%elif business.tipos_de_negocio == 'departamentos_casas_en_renta_largo_plazo'%}{%comment%} RENTA DEPAS CASAS LARGO PLAZO {%endcomment%}
+                          <a href="{% url 'rentas_largo_plazo' business.id %}" class="btn btn-primary">Propiedades</a>
+
+              {%elif business.tipos_de_negocio == 'venta_bienes_raices'%}{%comment%} VENTA DE PROPIEDADES {%endcomment%}
+                          <a href="{% url 'venta_bienes_raices' business_id=business.id %}" class="btn btn-primary">Propiedades</a>
+
+              {%elif business.tipos_de_negocio == 'tours_aventura' or business.tipos_de_negocio == 'tours_culturales' or business.tipos_de_negocio == 'hiking_tours' or business.tipos_de_negocio == 'tours_gastronomicos' or business.tipos_de_negocio == 'tour_tacos' or business.tipos_de_negocio == 'paseos_bus_turistico' or business.tipos_de_negocio == 'atracciones_parques' or  business.tipos_de_negocio == 'avistamiento_ballenas' %}{%comment%} VENTA DE PROPIEDADES {%endcomment%}
+                        <a href="{% url 'view_tours' business.id  %}" class="btn btn-primary">Ver Tours</a>
+
+              {%elif business.tipos_de_negocio == 'centros_culturales' %}
+              <a href="{% url 'lista_eventos_culturales'  %}" class="btn btn-success">
+                  Eventos
+              </a>
+
+              {%elif business.tipos_de_negocio == 'clases_cocina' or business.tipos_de_negocio == 'clases_baile' or user.business.tipos_de_negocio == 'clases_idiomas' or business.tipos_de_negocio == 'clases_natacion' or business.tipos_de_negocio == 'talleres_culturales'%}
+              <a href="{% url 'lista_clases' business.id %}" class="btn btn-info">📋 Ver Clases</a>
+
+              {%else%}
+                  <a href="{% url 'menu' business_id=business.id %}">Menú</a> {%comment%} ESTE ES EL DE PRODUCTOS GENERALES{%endcomment%}
+            {%endif%}
+      
+        
+        <a href="{% url 'tienda' %}">Regresar</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- ESTO ES PARA EL OPEN MODAL, JUNTO CON EL CODIGO JS swipers.js -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+  <span class="close" onclick="closeLightbox()">✖</span>
+  <span class="prev" onclick="changeLightbox(-1, event)">&#10094;</span>
+  <span class="next" onclick="changeLightbox(1, event)">&#10095;</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script><!--ESTE ES PARA PASAR LAS FOTOS ANTES DE ABRIR EL MODAL-->
+<script src="{% static '/js/swipers.js' %}"></script>
+<!--###################################################################################-->
+
+<footer class="footer">
+  <div class="footer-links">
+    <a class="footer-link">Privacy Policy</a> |
+    <a class="footer-link">Terms and Conditions</a> |
+    <a class="footer-link">About Us</a>
+  </div>
+  <div class="footer-content">
+    <div class="footer-info-container">
+      <div class="contact-methods">
+        <a href="https://wa.me/+17279468985" class="social-icon whatsapp"></a>
+        <a href="https://www.instagram.com/#" class="social-icon instagram" target="_blank"></a>
+        <a href="https://www.facebook.com/LANDMARKPVR?mibextid=wwXIfr" class="social-icon facebook" target="_blank"></a>
+      </div>
+    </div>
+    <div class="footer-info">
+      <p><strong>Teléfono:</strong> +1 615 938 0458</p>
+      <p><strong>Horas de Atención:</strong> Lunes a Viernes, 10 AM - 6 PM</p>
+    </div>
+  </div>
+  <p class="footer-rights">&copy; 2025 Grupo Concierge. Todos los Derechos Reservados.</p>
+</footer>
+
+</body>
+</html>

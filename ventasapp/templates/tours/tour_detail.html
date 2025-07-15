@@ -1,0 +1,91 @@
+{% extends "detalles_hoteleria/base_detalles.html" %} 
+{% comment %}EN LA BASE TENGO TODOS LOS TAGS HEADER Y FOOTER{% endcomment %}
+
+{% block content %}
+<div class="body">
+  <ul class="product-grid">
+    <li class="product">
+      <h3 class="title">{{ tour.name }}</h3>
+
+      <!-- Image Slider (Swiper) -->
+      <div class="swiper swiper-container mySwiper-{{ tour.id }}">
+        <div class="swiper-wrapper">
+          {% if tour.image1 %}
+            <div class="swiper-slide"><img src="{{ tour.image1.url }}" alt="Image 1" onclick="openLightbox('{{ tour.image1.url }}')"></div>
+          {% endif %}
+          {% if tour.image2 %}
+            <div class="swiper-slide"><img src="{{ tour.image2.url }}" alt="Image 2" onclick="openLightbox('{{ tour.image2.url }}')"></div>
+          {% endif %}
+          {% if tour.image3 %}
+            <div class="swiper-slide"><img src="{{ tour.image3.url }}" alt="Image 3" onclick="openLightbox('{{ tour.image3.url }}')"></div>
+          {% endif %}
+          {% if tour.image4 %}
+            <div class="swiper-slide"><img src="{{ tour.image4.url }}" alt="Image 4" onclick="openLightbox('{{ tour.image4.url }}')"></div>
+          {% endif %}
+          {% if tour.image5 %}
+            <div class="swiper-slide"><img src="{{ tour.image5.url }}" alt="Image 5" onclick="openLightbox('{{ tour.image5.url }}')"></div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Tour Information -->
+      <div class="business-info">
+        <div><em>Precio:</em> ${{ tour.price }}</div>
+        <div><em>Tipo de Tour:</em> {{ tour.tour_type }}</div>
+        <div><em>Hora de Inicio:</em> {{ tour.starts_time }}</div>
+        <div><em>Hora de Finalización:</em> {{ tour.ending_time }}</div>
+        <div><em>Duración Total:</em> {{ tour.total_duration }}</div>
+        <div><em>Máximo de Personas:</em> {{ tour.max_people }}</div>
+        <div><em>Dificultad:</em> {{ tour.difficulty }}</div>
+        <div><em>Incluye:</em> {{ tour.what_includes }}</div>
+        <div><em>No Incluye:</em> {{ tour.what_doesnot_include }}</div>
+        <div><em>Punto de Encuentro:</em> {{ tour.meeting_point }}</div>
+      </div>
+
+      <!-- Description -->
+      <div class="div-descripcion">
+        <em>Descripción:</em>
+        <p>{{ tour.description }}</p>
+      </div>
+
+      {%comment%}
+      {% if user.userprofile.role == 'business_owner' %}
+        <div class="botones-reservar carrito">
+          <!-- Delete Button -->
+          <a>
+            <form action="{% url 'eliminar_tour' tour.id %}" method="post">
+              {% csrf_token %}
+              <button id="boton-eliminar" type="submit">Eliminar</button>
+            </form>
+          </a>
+
+          <!-- Edit Button -->
+          <a href="{% url 'editar_tour' id=tour.id %}" class="btn btn-primary">Editar</a>
+          {% endif %}
+{%endcomment%}
+          <!-- Back to Dashboard -->
+           {% if user.userprofile.role == 'business_owner' %}
+        <div class="botones-reservar carrito">
+          
+          <a>
+          <form action="{% url 'delete_tour' tour.id  %}" method="post">
+                    {% csrf_token %}
+                    <button id="boton-eliminar"type="submit" onclick="return confirm('¿Estas Seguro que quieres Eliminar este tour?');">Eliminar</button>
+                </form>
+              </a>
+        
+          <a href="{% url 'edit_tour' tour.id %}" class="btn btn-primary"> Editar</a>     
+        <a class="reservar" href="{% url 'dashboard' %}">Regresar</a>     
+        </div>
+       {% endif %}    
+          <a class="btn btn-primary" href="{% url 'dashboard' %}">← Regresar</a>
+        </div>
+      
+      
+    </li>
+  </ul>
+
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{%extends 'detalles_hoteleria/base_detalles.html'%}
+{%block content%}
+
+
+
+<div class="body">
+  <ul class="product-grid">
+    <li class="product">
+      <h3 class="title">{{ departamento.name }}</h3>
+
+      <!-- Image Slider -->
+      <div class="swiper swiper-container mySwiper-{{ departamento.id }}">
+        <div class="swiper-wrapper">
+          {% if departamento.image1 %}
+            <div class="swiper-slide"><img src="{{ departamento.image1.url }}" alt="Imagen 1"></div>
+          {% endif %}
+          {% if departamento.image2 %}
+            <div class="swiper-slide"><img src="{{ departamento.image2.url }}" alt="Imagen 2"></div>
+          {% endif %}
+          {% if departamento.image3 %}
+            <div class="swiper-slide"><img src="{{ departamento.image3.url }}" alt="Imagen 3"></div>
+          {% endif %}
+          {% if departamento.image4 %}
+            <div class="swiper-slide"><img src="{{ departamento.image4.url }}" alt="Imagen 4"></div>
+          {% endif %}
+          {% if departamento.image5 %}
+            <div class="swiper-slide"><img src="{{ departamento.image5.url }}" alt="Imagen 5"></div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Departamento Info -->
+      <div class="business-info">
+        <div><em>Tipo Subcategoría:</em> {{ departamento.tipo_subcategoria }}</div>
+        <div><em>Precio:</em> ${{ departamento.price }}</div>
+        <div><em>Dirección:</em> {{ departamento.address }}</div>
+        <div><em>Área (m²):</em> {{ departamento.area_m2 }}</div>
+        <div><em>Máximo de personas:</em> {{ departamento.max_people }}</div>
+        <div><em>Camas:</em> {{ departamento.numero_de_camas }}</div>
+        <div><em>Niños menores de 12:</em> {{ departamento.children_under_12 }}</div>
+
+        <!-- Location and Property -->
+        <div><em>Tipo de Propiedad:</em> {{ departamento.property_type }}</div>
+        <div><em>Piso:</em> {{ departamento.floor_number }}</div>
+        <div><em>Vista primaria:</em> {{ departamento.vista_primaria }}</div>
+        <div><em>Vista secundaria:</em> {{ departamento.vista_secundaria }}</div>
+        <div><em>Balcón:</em> {{ departamento.balcony }}</div>
+
+        <!-- Interior Details -->
+        <div><em>Habitaciones:</em> {{ departamento.bedrooms }}</div>
+        <div><em>Baños:</em> {{ departamento.bathrooms }}</div>
+
+        <!-- Amenities -->
+        <div><em>Aire Acondicionado:</em> {{ departamento.air_conditioning }}</div>
+        <div><em>Ventiladores:</em> {{ departamento.ventilador}}</div>
+        <div><em>Agua Caliente:</em> {{ departamento.hot_water }}</div>
+        <div><em>WiFi:</em> {{ departamento.wifi }}</div>
+        <div><em>Cocina:</em> {{ departamento.kitchen }}</div>
+        <div><em>Electrodomésticos:</em> {{ departamento.appliances }}</div>
+        <div><em>Minibar Incluido:</em> {{ departamento.minibar_incluido|yesno:"Sí,No" }}</div>
+        <div><em>Incluye Desayuno:</em> {{ departamento.includes_breakfast|yesno:"Sí,No" }}</div>
+        <div><em>Estacionamiento:</em> {{ departamento.parking|yesno:"Sí,No" }}</div>
+        <div><em>Tipo de Estasionamiento:</em> {{ departamento.estasionamiento_details }}</div>
+        <div><em>Piscina Pública:</em> {{ departamento.piscina_publica }}</div>
+        <div><em>Jacuzzi:</em> {{ departamento.jacuzzi }}</div>
+
+        <!-- Property Rules -->
+        <div><em>Reglas de la propiedad:</em> {{ departamento.property_rules }}</div>
+        <div><em>Política de cancelación:</em> {{ departamento.cancellation_policy }}</div>
+        <div><em>Depósito de seguridad:</em> ${{ departamento.security_deposit }}</div>
+
+        <!-- Private Entrance and Policies -->
+        <div><em>Entrada privada:</em> {{ departamento.private_entrance|yesno:"Sí,No" }}</div>
+        <div><em>Fumar permitido:</em> {{ departamento.smoking_allowed }}</div>
+        <div><em>Pet Friendly:</em> {{ departamento.pet_friendly }}</div>
+        <div><em>Mínimo de noches:</em> {{ departamento.nights_minimum }}</div>
+        <div><em>Horario Check-in:</em> {{ departamento.horario_checking }}</div>
+        <div><em>Horario Check-out:</em> {{ departamento.horario_checkout }}</div>
+        <div><em>Caja Fuerte:</em> {{ departamento.caja_fuerte }}</div>
+      </div>
+
+      
+      
+     
+
+
+      <!-- Description -->
+      <div class="div-descripcion">
+        <em>Descripción:</em>
+        <p>{{ departamento.description }}</p>
+        <em>Servicios Adicionales:</em> <p>{{ departamento.additional_services }}</p>
+      </div>
+      <div class="google_maps">Ubicación en el mapa: {{ departamento.google_maps|safe }}</div>
+
+        {% if user.userprofile.role == 'business_owner' %}
+          <div class="botones-reservar carrito">            
+            <a>
+            <form action="{% url 'eliminar_producto_hoteleria' departamento.id 'departamentos_casas_vacacionales' %}" method="post">
+                      {% csrf_token %}
+                      <button id="boton-eliminar"type="submit"onclick="return confirm('¿Estas Seguro que quieres Eliminar Esta Propiedad?');">Eliminar</button>
+                  </form>
+                </a>         
+            <a href="{% url 'editar_producto' tipo='departamentos_casas_vacacionales' id=departamento.id %}" class="btn btn-primary"> Editar</a>     
+          <a class="reservar" href="{% url 'dashboard' %}">Regresar</a>     
+          </div>
+      {% endif %}  
+    </li>
+  </ul>
+</div>
+
+{%endblock%}

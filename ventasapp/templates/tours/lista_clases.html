@@ -1,0 +1,70 @@
+{% extends "hoteleria/base_habitaciones_hotel.html" %}
+{% block content %}
+
+<h2 class="title">CLASES / TALLERES - {{ business.commercial_name }}</h2>
+
+<div class="body">
+  {% for clase in clases %}
+    <li class="product">
+      <h3 class="title">{{ clase.titulo }}</h3>
+
+      <!-- Swiper for Clase Images -->
+      <div class="swiper swiper-container mySwiper-{{ clase.id }}">
+        <div class="swiper-wrapper">
+          {% if clase.image1 %}
+            <div class="swiper-slide">
+              <img src="{{ clase.image1.url }}" onclick="openLightbox('{{ clase.image1.url }}')">
+            </div>
+          {% endif %}
+          {% if clase.image2 %}
+            <div class="swiper-slide">
+              <img src="{{ clase.image2.url }}" onclick="openLightbox('{{ clase.image2.url }}')">
+            </div>
+          {% endif %}
+          {% if clase.image3 %}
+            <div class="swiper-slide">
+              <img src="{{ clase.image3.url }}" onclick="openLightbox('{{ clase.image3.url }}')">
+            </div>
+          {% endif %}
+          {% if clase.image4 %}
+            <div class="swiper-slide">
+              <img src="{{ clase.image4.url }}" onclick="openLightbox('{{ clase.image4.url }}')">
+            </div>
+          {% endif %}
+          {% if clase.image5 %}
+            <div class="swiper-slide">
+              <img src="{{ clase.image5.url }}" onclick="openLightbox('{{ clase.image5.url }}')">
+            </div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Price shown outside the details block -->
+      <div class="precio-fuera-details">
+        <em>Precio:</em> ${{ clase.precio }}
+      </div>
+
+      <!-- Toggle Details Section -->
+      <details class="product-details">
+        <summary class="descripcion-menu-item">Ver Detalles</summary>
+
+        <em>Categoría:</em> <strong>{{ clase.get_categoria_display }}</strong><br>
+        <em>Instructor:</em> <strong>{{ clase.instructor }}</strong><br>
+        <em>Duración:</em> <strong>{{ clase.duracion }}</strong><br>
+        <em>Fecha de Inicio:</em> <strong>{{ clase.fecha_inicio }}</strong><br>
+        <em>Fecha de Finalización:</em> <strong>{{ clase.fecha_fin }}</strong><br>
+        <em>Cupos Disponibles:</em> <strong>{{ clase.cupos_disponibles }}</strong><br>
+        <em>Ubicación:</em> <strong>{{ clase.ubicacion }}</strong><br>
+        <a href="{% url 'detalle_clase' clase.id %}" class="btn btn-primary">
+          Más Detalles
+        </a>
+      </details>
+    </li>
+  {% empty %}
+    <p>No hay clases registradas para este negocio.</p>
+  {% endfor %}
+</div><!-- cierre body -->
+
+{% endblock %}

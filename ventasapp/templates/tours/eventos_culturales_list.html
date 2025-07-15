@@ -1,0 +1,72 @@
+{% extends "hoteleria/base_habitaciones_hotel.html" %}
+{% block content %}
+
+<h2 class="title">EVENTOS CULTURALES</h2>
+
+<div class="body">
+  {% for evento in eventos %}
+    <li class="product">
+      <h3 class="title">{{ evento.title }}</h3>
+
+      <!-- Swiper for Event Images -->
+      <div class="swiper swiper-container mySwiper-{{ evento.id }}">
+        <div class="swiper-wrapper">
+          {% if evento.image1 %}
+            <div class="swiper-slide">
+              <img src="{{ evento.image1.url }}" onclick="openLightbox('{{ evento.image1.url }}')">
+            </div>
+          {% endif %}
+          {% if evento.image2 %}
+            <div class="swiper-slide">
+              <img src="{{ evento.image2.url }}" onclick="openLightbox('{{ evento.image2.url }}')">
+            </div>
+          {% endif %}
+          {% if evento.image3 %}
+            <div class="swiper-slide">
+              <img src="{{ evento.image3.url }}" onclick="openLightbox('{{ evento.image3.url }}')">
+            </div>
+          {% endif %}
+          {% if evento.image4 %}
+            <div class="swiper-slide">
+              <img src="{{ evento.image4.url }}" onclick="openLightbox('{{ evento.image4.url }}')">
+            </div>
+          {% endif %}
+          {% if evento.image5 %}
+            <div class="swiper-slide">
+              <img src="{{ evento.image5.url }}" onclick="openLightbox('{{ evento.image5.url }}')">
+            </div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Access / Cost outside the details block -->
+      <div class="precio-fuera-details">
+        <em>Acceso / Costo:</em> {{ evento.cost_or_access }}
+      </div>
+
+      <!-- Toggle Details Section -->
+      <details class="product-details">
+        <summary class="descripcion-menu-item">Ver Detalles</summary>        
+        <em>Tipo:</em> <strong>{{ evento.get_type_display }}</strong><br>
+        <em>Facilitador / Artista:</em> <strong>{{ evento.facilitator_or_artist }}</strong><br>
+        <em>Inicio:</em> <strong>{{ evento.start_datetime }}</strong><br>
+        <em>Fin:</em> <strong>{{ evento.end_datetime }}</strong><br>
+        <em>Duración Total:</em> <strong>{{ evento.total_duration }}</strong><br>
+        <em>Público Objetivo:</em> <strong>{{ evento.target_audience }}</strong><br>       
+        <em>Objetivo:</em> <strong>{{ evento.objective }}</strong><br>
+        
+
+        
+        <a href="{% url 'detalle_evento_cultural' evento.id %}" class="btn btn-primary">
+        Más Detalles
+        </a>
+      </details>
+    </li>
+  {% empty %}
+    <p>No hay eventos culturales disponibles.</p>
+  {% endfor %}
+</div><!-- cierre body -->
+
+{% endblock %}

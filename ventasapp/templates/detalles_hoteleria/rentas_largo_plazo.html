@@ -1,0 +1,121 @@
+
+{%extends 'detalles_hoteleria/base_detalles.html'%}
+
+{%block content%}
+<div class="body">
+  <ul class="product-grid">
+    <li class="product">
+      <h3 class="title">{{ casa_renta.name }}</h3>
+
+      <!-- Image Slider -->
+      <div class="swiper swiper-container mySwiper-{{ casa_renta.id }}">
+        <div class="swiper-wrapper">
+          {% if casa_renta.image1 %}
+            <div class="swiper-slide"><img src="{{ casa_renta.image1.url }}" alt="Imagen 1"></div>
+          {% endif %}
+          {% if casa_renta.image2 %}
+            <div class="swiper-slide"><img src="{{ casa_renta.image2.url }}" alt="Imagen 2"></div>
+          {% endif %}
+          {% if casa_renta.image3 %}
+            <div class="swiper-slide"><img src="{{ casa_renta.image3.url }}" alt="Imagen 3"></div>
+          {% endif %}
+          {% if casa_renta.image4 %}
+            <div class="swiper-slide"><img src="{{ casa_renta.image4.url }}" alt="Imagen 4"></div>
+          {% endif %}
+          {% if casa_renta.image5 %}
+            <div class="swiper-slide"><img src="{{ casa_renta.image5.url }}" alt="Imagen 5"></div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Casa Renta Info -->
+      <div class="business-info">
+        
+        <div><em>Precio Mensual:</em> ${{ casa_renta.price }}</div>
+        <div><em>Habitaciones:</em> {{ casa_renta.bedrooms }}</div>
+        <div><em>Baños:</em> {{ casa_renta.bathrooms }}</div>
+        <div><em>Colonia:</em> {{ casa_renta.colonia }}</div>
+        <div><em>Max. Personas:</em> {{ casa_renta.max_people }}</div>
+        <div><em>Niños menores de 12:</em> {{ casa_renta.children_under_12 }}</div>
+        <div><em>Fumar permitido:</em> {{ casa_renta.smoking_allowed }}</div>
+        <div><em>Pet Friendly:</em> {{ casa_renta.pet_friendly }}</div>
+        
+        <!-- Property Info -->
+        <div><em>Tipo de propiedad:</em> {{ casa_renta.tipo_de_propiedad }}</div>
+        <div><em>Piso:</em> {{ casa_renta.floor_number }}</div>
+        <div><em>Elevador:</em> {{ casa_renta.elevador }}</div>
+        <div><em>Balcón:</em> {{ casa_renta.balcony }}</div>
+        <div><em>Vista Primaria:</em> {{ casa_renta.vista_primaria }}</div>
+        <div><em>Vista Secundaria:</em> {{ casa_renta.vista_secundaria }}</div>
+
+        <!-- Features & Amenities -->
+        <div><em>Agua Caliente:</em> {{ casa_renta.hot_water }}</div>
+        <div><em>Aire Acondicionado:</em> {{ casa_renta.air_conditioning }}</div>
+        <div><em>Ventiladores:</em> {{ casa_renta.ventilador}}</div>
+        <div><em>Piscina Pública:</em> {{ casa_renta.piscina_publica }}</div>
+        <div><em>Jacuzzi:</em> {{ casa_renta.jacuzzi }}</div>
+        <div><em>Cocina:</em> {{ casa_renta.kitchen }}</div>
+        <div><em>Estacionamiento:</em> {{ casa_renta.parking|yesno:"Sí,No" }}</div>
+        <div><em>Tipo de Estasionamiento:</em> {{ casa_renta.estasionamiento_details }}</div>
+        <!-- Additional Features -->
+        <div><em>Sala:</em> {{ casa_renta.sala }}</div>
+        <div><em>Comedor:</em> {{ casa_renta.comedor }}</div>
+        <div><em>Jardín:</em> {{ casa_renta.jardin }}</div>
+        <div><em>Backyard:</em> {{ casa_renta.backyard }}</div>
+        <div><em>Cuarto de servicio:</em> {{ casa_renta.cuarto_de_servicio }}</div>
+        <div><em>Amoblado:</em> {{ casa_renta.amoblado }}</div>
+        <div><em>Electrodomésticos:</em> {{ casa_renta.appliances }}</div>
+        <div><em>Rooftop:</em> {{ casa_renta.rooftop }}</div>
+
+        <!-- Property Conditions and Requirements -->
+        <div><em>Condiciones de la propiedad:</em> {{ casa_renta.condiciones_de_la_propiedad }}</div>
+        <div><em>Tipo de electricidad:</em> {{ casa_renta.tipo_de_electricidad }}</div>
+        <div><em>Medidas de la propiedad:</em> {{ casa_renta.medidas_de_la_propiedad }}</div>
+        <div><em>Duración contrato:</em> {{ casa_renta.duracion_contrato }}</div>
+        <div><em>Depósito:</em> {{ casa_renta.deposito }}</div>
+        <div><em>Áreas comunes:</em> {{ casa_renta.areas_comunes }}</div>
+        <div><em>Tipo de estufa:</em> {{ casa_renta.tipo_tipo_de_estufa }}</div>
+        <div><em>Mantenimiento:</em> {{ casa_renta.pago_de_mantenimiento }}</div>
+        <div><em>Qué incluye el pago de mantenimiento:</em> {{ casa_renta.que_incluye_el_pago_de_mantenimiento }}</div>        
+        <!-- Requirements and Policy -->
+        
+
+        
+
+
+
+
+      </div>
+      <!-- Description -->
+       <div class="div-descripcion">
+        <em>Requisitos:</em> <p>{{ casa_renta.requisitos }}</p>
+        <p>{{ casa_renta.description }}</p>
+      </div>
+      <div class="div-descripcion">
+        <em>Descripción:</em>
+        <p>{{ casa_renta.description }}</p>
+      </div>
+     
+      <div class="div-descripcion"><em>Dirección:</em> <p>{{ casa_renta.address }}</p> <p>{{ casa_renta.google_maps|safe }}</p></div>
+      {% if user.userprofile.role == 'business_owner' %}
+        <div class="botones-reservar carrito">
+          
+          <a>
+          <form action="{% url 'eliminar_producto_hoteleria' casa_renta.id 'rentas_largo_plazo' %}" method="post">
+                    {% csrf_token %}
+                    <button id="boton-eliminar"type="submit" onclick="return confirm('¿Estas Seguro que quieres Eliminar esta Habitación?');">Eliminar</button>
+                </form>
+              </a>
+          
+        
+          <a href="{% url 'editar_producto' tipo='rentas_largo_plazo' id=casa_renta.id %}" class="btn btn-primary"> Editar</a>     
+        <a class="reservar" href="{% url 'dashboard' %}">Regresar</a>     
+        </div>
+    {% endif %}  
+    </li>
+  </ul>
+</div>
+
+{%endblock%}

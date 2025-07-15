@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{% static 'css/dashboard2.css' %}">
+  <link rel="stylesheet" href="{% static '/css/headers.css' %}">
+  <link rel="stylesheet" href="{% static '/css/swiper_productos.css' %}">
+  <link rel="stylesheet" href="{% static '/css/footers.css' %}">
+  <link rel="stylesheet" href="fuentes.css"><!--ESTO ES PARA CARGAR FUENTES NUEVAS-->
+
+ <!-- ESTO ES PARA PASAR LAS FOTOS  -->
+ <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+ <!-- ESTO ES PARA PASAR LAS FOTOS TAMBIEN , aparte de esto en static tengo un achivo js -->
+ <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+  </div>
+</header>
+
+{%if productos %}
+<h2 class="title_h2"> MENÚ DE {{business.commercial_name}}</h2>
+<div class="body">
+
+{% for producto in productos %}
+  <li class="product">
+    <h3 class="title">{{ producto.name }}</h3>
+
+    <!-- Product Images Swiper -->
+    <div class="swiper swiper-container mySwiper-{{ producto.id }}">
+      <div class="swiper-wrapper">
+        {% if producto.image1 %}
+          <div class="swiper-slide">
+            <img src="{{ producto.image1.url }}" onclick="openLightbox('{{ producto.image1.url }}')">
+          </div>
+        {% endif %}
+        {% if producto.image2 %}
+          <div class="swiper-slide">
+            <img src="{{ producto.image2.url }}" onclick="openLightbox('{{ producto.image2.url }}')">
+          </div>
+        {% endif %}
+
+        {% if producto.image3 %}
+          <div class="swiper-slide">
+            <img src="{{ producto.image3.url }}" onclick="openLightbox('{{ producto.image3.url }}')">
+          </div>
+        {% endif %}
+
+        {% if producto.image4 %}
+          <div class="swiper-slide">
+            <img src="{{ producto.image4.url }}" onclick="openLightbox('{{ producto.image4.url }}')">
+          </div>
+        {% endif %}
+
+        {% if producto.image5 %}
+          <div class="swiper-slide">
+            <img src="{{ producto.image5.url }}" onclick="openLightbox('{{ producto.image5.url }}')">
+          </div>
+        {% endif %}
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+    <div class="precio-fuera-details">Precio $ {{ producto.price }}</div>
+    <details class="product-details">
+        <summary class="descripcion-menu-item">{#Detalles de Producto  ESTE TEXTO SE LO PUSE CON CSS #}</summary>
+        {%if producto.ingredientes %}
+        <div class="ingredientes">
+          <em> ingredientes </em>
+          <p> {{producto.ingredientes}}</p>
+        </div>
+        {%endif%}
+
+        {%if producto.description%}
+        <div class="product-description">
+          <em>Descripción:</em>
+          <p>{{ producto.description }}</p>
+        </div>
+        {%endif%}
+      </details>
+
+      {% if user.userprofile.role == 'business_owner' %}
+      <div class="botones-reservar carrito">
+        <a href="{% url 'editar_producto_menu' producto.id %}">editar</a>
+        <a style="background-color:red" class="view-details" href="{% url 'eliminar_producto_menu' producto_id=producto.id %}">
+          Eliminar
+        </a>
+        <a href="{% url 'agregar_extra' producto.id %}" >+ Extra</a>
+      </div>
+      {% else %}
+      <!-- Usuario normal: agregar producto al carrito sin extras -->
+        <form method="POST" action="{% url 'add_to_cart' producto.id %}" class="add-to-cart-form" data-business-id="{{ producto.business.id }}">
+        {% csrf_token %}
+        <div class="botones-reservar">
+          <button type="submit">Agregar al Carrito</button>
+          
+        </div>
+        <span class="mensaje-error"></span>
+      </form>
+
+
+      {% endif %}
+  </li>
+{% endfor %}
+
+
+
+
+<!-- Lightbox & Swiper Scripts -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="">
+    <span class="close" onclick="closeLightbox()">✖</span>
+    <span class="prev" onclick="changeLightbox(-1, event)">&#10094;</span>
+    <span class="next" onclick="changeLightbox(1, event)">&#10095;</span>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="{% static '/js/swipers.js' %}"></script>
+  
+
+</div> <!-- Close body -->
+<!-- Buttons -->
+<div class="botones-reservar carrito">
+  {% if user.is_authenticated%}
+  <a href="{% url 'dashboard' %}">Regresar</a>
+  {%else%}
+  <a href="{% url 'tienda' %}">Regresar</a>
+  {%endif%}
+
+   <a href="{% url 'ver_carrito' %}">Ver Carrito</a>
+</div>
+{%else%}
+<div class="menu_bacio"> Este Negocio aún no tiene un Menú</div>
+
+<div class="botones-reservar carrito">
+<a href="{% url 'tienda' %}">Regresar</a>
+</div>
+{%endif%}
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-links">
+    <a class="footer-link">Privacy Policy</a> |
+    <a class="footer-link">Terms and Conditions</a>
+    <a class="footer-link">About Us</a>
+  </div>
+
+  <div class="footer-content">
+    <div class="footer-info-container">
+      <div class="contact-methods">
+        <a href="https://wa.me/+17279468985" class="social-icon whatsapp"></a>
+        <a href="https://www.instagram.com/#" class="social-icon instagram" target="_blank"></a>
+        <a href="https://www.facebook.com/LANDMARKPVR?mibextid=wwXIfr" class="social-icon facebook" target="_blank"></a>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      <p><strong>Telefono:</strong> +16159380458</p>
+      <p><strong>Horas de Atencion:</strong> Lunes a Viernes, 10 AM - 6 PM</p>
+    </div>
+  </div>
+
+  <p class="footer-rights">&copy; 2025 Grupo Concierge. Todos los Derechos Reservados.</p>
+</footer>
+
+
+{#  CODIGO PARA QUE SI EL USUARIO INTENTA AGREGAR ITEMS DE OTRO NEGOCIO LE DIGA QUE NO PUEDE AGREGAR HASTA QUE NO PAGUE EL OTRO CARRITO , TAMBIEN DEBI PONER OTRO CODIGO JS PEQUEÑO EN EL CARRITO PARA QUE LIMPIE STORAGE SI SE ELIMINAN TODO LOS PRODUCTOS#}
+{############################# PARA ESTO DEBI TAMBIEN DEBI AGREGAR CONDICIONALE EN LA VISTA AGREGAR AL CARRITO#}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const forms = document.querySelectorAll(".add-to-cart-form");
+  //AQUI ESTOY PREVIINIENDO DEFAULT PARA QUE CUANDO EL USUARIO DE CLICK NO SE HAGA LO QUE POR DEFAULT SE HACE
+  forms.forEach(form => {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const currentBusinessId = form.dataset.businessId;
+      const storedBusinessId = localStorage.getItem("carrito_business_id");//AQUI ESTOY GUARDANDO EN LOCALSTORAGE EL ID DEL PRODUCTO
+      const mensajeError = form.querySelector(".mensaje-error");//CREAMOS LA CLASE PARA EL MENSAJE DE ERROR
+      const boton = form.querySelector("button[type='submit']");//SELECCIONAMOS EL BOTON DEL FORM
+
+      mensajeError.textContent = ""; //EL TEXTO DEL MENSAJE DE ERROR
+      mensajeError.classList.remove("mensaje-exito", "mensaje-error");//BOTTAMOS MENSAJE DE ERROR Y DE EXITO
+      boton.disabled = true;//DESABILITAMOS EL BOTON
+
+      if (storedBusinessId && storedBusinessId !== currentBusinessId) {//AQUI COMPRUEBO SI EL NEGOCIO EXISTE EN EL CARRO
+        mensajeError.textContent = "Finaliza la compra actual antes de agregar productos de otro negocio.";
+        mensajeError.classList.add("mensaje-error");
+        boton.disabled = false;//DESABILITO EL NEGOCIO BOTON
+
+        setTimeout(() => {//AQUI ESTOY PONIENDO UN TIMER PARA QUE EL MENSAJE DESAPAREZCA DESPUES DE 3 SEGUNDOS
+          mensajeError.textContent = "";
+          mensajeError.classList.remove("mensaje-error");
+        }, 3000);
+
+        return;
+      }
+
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": formData.get('csrfmiddlewaretoken'),
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === "success") {
+          mensajeError.textContent = "Agregado ✅";
+          mensajeError.classList.add("mensaje-exito");
+          if (!storedBusinessId) {
+            localStorage.setItem("carrito_business_id", currentBusinessId);
+          }
+        } else {
+          mensajeError.textContent = data.message;
+          mensajeError.classList.add("mensaje-error");
+        }
+
+        setTimeout(() => {
+          mensajeError.textContent = "";
+          mensajeError.classList.remove("mensaje-exito", "mensaje-error");
+        }, 2000);
+
+        boton.disabled = false;
+      })
+      .catch(() => {
+        mensajeError.textContent = "Error inesperado, intenta de nuevo.";
+        mensajeError.classList.add("mensaje-error");
+        boton.disabled = false;
+
+        setTimeout(() => {
+          mensajeError.textContent = "";
+          mensajeError.classList.remove("mensaje-error");
+        }, 2000);
+      });
+    });
+  });
+});
+</script>
+
+
+</body>
+</html>

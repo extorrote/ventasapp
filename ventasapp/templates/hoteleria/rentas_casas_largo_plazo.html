@@ -1,0 +1,63 @@
+
+{%extends "hoteleria/base_habitaciones_hotel.html" %}
+{%block content%}
+
+<h2 class="title"> CASAS EN RENTA DE {{ business_instance.commercial_name }}</h2>
+
+<div class="body">
+
+{% for habitacion in largo_plazo %}
+  <li class="product">
+    <h3 class="title">{{ habitacion.name }}</h3>
+
+    <!-- Product Images Swiper -->
+    <div class="swiper swiper-container mySwiper-{{ habitacion.id }}">
+      <div class="swiper-wrapper">
+        {% if habitacion.image1 %}
+          <div class="swiper-slide">
+            <img src="{{ habitacion.image1.url }}" onclick="openLightbox('{{ habitacion.image1.url }}')">
+          </div>
+        {% endif %}
+        {% if habitacion.image2 %}
+          <div class="swiper-slide">
+            <img src="{{ habitacion.image2.url }}" onclick="openLightbox('{{ habitacion.image2.url }}')">
+          </div>
+        {% endif %}
+        {% if habitacion.image3 %}
+          <div class="swiper-slide">
+            <img src="{{ habitacion.image3.url }}" onclick="openLightbox('{{ habitacion.image3.url }}')">
+          </div>
+        {% endif %}
+        {% if habitacion.image4 %}
+          <div class="swiper-slide">
+            <img src="{{ habitacion.image4.url }}" onclick="openLightbox('{{ habitacion.image4.url }}')">
+          </div>
+        {% endif %}
+        {% if habitacion.image5 %}
+          <div class="swiper-slide">
+            <img src="{{ habitacion.image5.url }}" onclick="openLightbox('{{ habitacion.image5.url }}')">
+          </div>
+        {% endif %}
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+
+    <div class="precio-fuera-details"><em>Precio Por Mes:</em> ${{ habitacion.price }}</div>
+
+    <details class="product-details">
+      <summary class="descripcion-menu-item">Ver Detalles</summary>
+      <em>Habitaciones:</em> <strong>{{ habitacion.bedrooms }}</strong><br>
+      <em>Baños:</em> <strogn>{{ habitacion.bathrooms}}</strogn><br>
+      <em>Vista primaria:</em> <strong>{{ habitacion.vista_primaria }}</strong><br>
+      <em>Aire Acondicionado:</em> <strong>{{ habitacion.air_conditioning }}</strong><br>
+      <em>Piscina:</em> <strong>{{ habitacion.piscina_publica }}</strong><br>
+      <a href="{% url 'detalle_rentas_largo_plazo' habitacion.id %}" class="btn btn-primary">
+            Más Detalles
+        </a>
+    </details>
+  </li>
+{% endfor %}
+
+
+{%endblock%}

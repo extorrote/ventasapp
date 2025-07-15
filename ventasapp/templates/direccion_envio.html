@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/agregar_producto.css' %}">
+  <link rel="stylesheet" href="{% static 'css/headers.css' %}">
+</head>
+<body>
+<div class="container">
+  <h2 class="h2_envios">Ingresa tu dirección de envío o selecciona retiro en sucursal</h2>
+  
+  <form method="post" id="direccion-form">
+    {% csrf_token %}
+
+    <p>
+      {{ form.opcion_entrega.label_tag }}<br>
+      {{ form.opcion_entrega }}
+    </p>
+
+    <p>
+      {{ form.nombre_completo.label_tag }}<br>
+      {{ form.nombre_completo }}
+    </p>
+
+
+    <div class="grid_datos_envio">
+    <p>
+      {{ form.telefono.label_tag }}<br>
+      {{ form.telefono }}
+    </p>
+
+    <p>
+      <label> Calle y Número </label><br>
+      {{ form.direccion }}
+    </p>
+
+    <p>
+      {{ form.ciudad.label_tag }}<br>
+      {{ form.ciudad }}
+    </p>
+
+    <p>
+      {{ form.estado.label_tag }}<br>
+      {{ form.estado }}
+    </p>
+
+    <p>
+      {{ form.codigo_postal.label_tag }}<br>
+      {{ form.codigo_postal }}
+    </p>
+
+    <p id="propina-container">
+      {{ form.propina_voluntaria.label_tag }} <strong>MXN</strong><br>
+      {{ form.propina_voluntaria }}
+    </p>
+
+    
+  </div>
+  <p class="propina">
+      {{ form.decidir_propina_despues }} {{ form.decidir_propina_despues.label_tag }}
+    </p >
+
+    <p class="textfield">
+     <label> Instruciones de Entrega</label><br>
+      <textfield>{{ form.notas }}</textfield>
+    </p>
+    <button type="submit" id="btn-submit">Guardar dirección y continuar</button>
+  </form>
+<p><a href="{% url 'ver_carrito' %}" class="back-btn">Regresar</a></p>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const opcionSelect = document.querySelector('select[name="opcion_entrega"]');
+  const addressFields = ['direccion', 'ciudad', 'estado', 'codigo_postal'].map(name => document.querySelector(`[name="${name}"]`));
+  const decidirPropinaCheckbox = document.querySelector('input[name="decidir_propina_despues"]');
+  const propinaContainer = document.getElementById('propina-container');
+  const submitBtn = document.getElementById('btn-submit');
+
+  function toggleAddressFields() {
+    const isDomicilio = opcionSelect.value === 'domicilio';
+
+    addressFields.forEach(field => {
+      if (field) {
+        field.disabled = !isDomicilio;
+        const container = field.closest('p') || field.parentElement;
+        if (container) {
+          container.style.display = isDomicilio ? 'block' : 'none';
+        }
+      }
+    });
+
+    submitBtn.textContent = isDomicilio ? 'Guardar dirección y continuar' : 'Continuar';
+  }
+
+  function togglePropinaField() {
+    const isChecked = decidirPropinaCheckbox.checked;
+    if (propinaContainer) {
+      propinaContainer.style.display = isChecked ? 'none' : 'block';
+    }
+  }
+
+  opcionSelect.addEventListener('change', toggleAddressFields);
+  if (decidirPropinaCheckbox) {
+    decidirPropinaCheckbox.addEventListener('change', togglePropinaField);
+  }
+
+  toggleAddressFields();  // inicializar estado campos de dirección
+  togglePropinaField();   // inicializar visibilidad de propina
+});
+</script>
+</div>
+</body>
+</html>

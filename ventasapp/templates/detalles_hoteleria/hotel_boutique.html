@@ -1,0 +1,97 @@
+{%extends 'detalles_hoteleria/base_detalles.html'%}
+{%block content%}
+
+<div class="body">
+  <ul class="product-grid">
+    <li class="product">
+      <h3 class="title"> {{ hotel_boutique.name }}</h3>
+
+      <div class="swiper swiper-container mySwiper-{{ hotel_boutique.id }}">
+        <div class="swiper-wrapper">
+          {% if hotel_boutique.image1 %}
+            <div class="swiper-slide"><img src="{{ hotel_boutique.image1.url }}" alt="Imagen 1" onclick="openLightbox('{{ hotel_boutique.image1.url }}')"></div>
+          {% endif %}
+          {% if hotel_boutique.image2 %}
+            <div class="swiper-slide"><img src="{{ hotel_boutique.image2.url }}" alt="Imagen 2" onclick="openLightbox('{{ hotel_boutique.image2.url }}')"></div>
+          {% endif %}
+          {% if hotel_boutique.image3 %}
+            <div class="swiper-slide"><img src="{{ hotel_boutique.image3.url }}" alt="Imagen 3" onclick="openLightbox('{{ hotel_boutique.image3.url }}')"></div>
+          {% endif %}
+          {% if hotel_boutique.image4 %}
+            <div class="swiper-slide"><img src="{{ hotel_boutique.image4.url }}" alt="Imagen 4" onclick="openLightbox('{{ hotel_boutique.image4.url }}')"></div>
+          {% endif %}
+          {% if hotel_boutique.image5 %}
+            <div class="swiper-slide"><img src="{{ hotel_boutique.image5.url }}" alt="Imagen 5" onclick="openLightbox('{{ hotel_boutique.image5.url }}')"></div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <div class="business-info">
+        
+        <div><em>Precio:</em> ${{ hotel_boutique.price }}</div>
+        <div><em>Máximo de personas:</em> {{ hotel_boutique.max_people }}</div>
+        <div><em>Camas:</em> {{ hotel_boutique.numero_de_camas }}</div>
+        <div><em>Fumar permitido:</em> {{ hotel_boutique.smoking_allowed }}</div>
+        <div><em>Pet Friendly:</em> {{ hotel_boutique.pet_friendly }}</div>
+        <div><em>Piso:</em> {{ hotel_boutique.floor_number }}</div>
+        <div><em>Elevador:</em> {{ hotel_boutique.elevador }}</div>
+        <div><em>Vista primaria:</em> {{ hotel_boutique.vista_primaria }}</div>
+        <div><em>Vista secundaria:</em> {{ hotel_boutique.vista_secundaria }}</div>
+        <div><em>Balcón:</em> {{ hotel_boutique.balcony }}</div>
+
+        <div><em>Estilo de habitación:</em> {{ hotel_boutique.themed_room }}</div>
+        <div><em>Estilo de decoración:</em> {{ hotel_boutique.decor_style }}</div>
+        <div><em>Paleta de colores:</em> {{ hotel_boutique.color_palette }}</div>
+        <div><em>Estilo de iluminación:</em> {{ hotel_boutique.lighting_style }}</div>
+        <div><em>Detalles de muebles:</em> {{ hotel_boutique.furniture_details }}</div>
+        <div><em>Tamaño de habitación:</em> {{ hotel_boutique.room_size }}</div>
+        <div><em>Frecuencia de limpieza:</em> {{ hotel_boutique.cleaning_frequency }}</div>
+        <div><em>Servicio a la habitación disponible:</em> {{ hotel_boutique.room_service_available }}</div>
+        <div><em>Accesible:</em> {{ hotel_boutique.accessible }}</div>
+
+        <div><em>Agua Caliente:</em> {{ hotel_boutique.hot_water }}</div>
+        <div><em>Aire Acondicionado:</em> {{ hotel_boutique.air_conditioning }}</div>
+        <div><em>Ventiladores:</em> {{ hotel_boutique.ventilador}}</div>
+        <div><em>Gimnasio:</em> {{ hotel_boutique.gym }}</div>
+        <div><em>Piscina Pública:</em> {{ hotel_boutique.piscina_publica }}</div>
+        <div><em>Jacuzzi:</em> {{ hotel_boutique.jacuzzi }}</div>
+        <div><em>WiFi:</em> {{ hotel_boutique.wifi }}</div>
+        <div><em>Cocina:</em> {{ hotel_boutique.kitchen }}</div>
+        <div><em>Electrodomésticos:</em> {{ hotel_boutique.appliances }}</div>
+
+        <div><em>Horario Check-in:</em> {{ hotel_boutique.horario_checking }}</div>
+        <div><em>Horario Check-out:</em> {{ hotel_boutique.horario_checkout }}</div>
+        <div><em>Caja Fuerte:</em> {{ hotel_boutique.caja_fuerte }}</div>
+        <div><em>Minibar Incluido:</em> {{ hotel_boutique.minibar_incluido|yesno:"Sí,No" }}</div>
+        <div><em>Incluye Desayuno:</em> {{ hotel_boutique.includes_breakfast|yesno:"Sí,No" }}</div>
+        <div><em>Estacionamiento:</em> {{ hotel_boutique.parking|yesno:"Sí,No" }}</div>
+        <div><em>Está Disponible?:</em> {{ hotel_boutique.is_active|yesno:"Si,No" }}</div>
+      </div>
+
+      <div class="div-descripcion">
+        <em>Descripción:</em>
+        <p>{{ hotel_boutique.description }}</p>
+      </div>
+
+      {% if user.userprofile.role == 'business_owner' %}
+        <div class="botones-reservar carrito">
+          
+          <a>
+          <form action="{% url 'eliminar_producto_hoteleria' hotel_boutique.id 'hotel_boutique' %}" method="post">
+                    {% csrf_token %}
+                    <button id="boton-eliminar"type="submit" onclick="return confirm('¿Estas Seguro que quieres Eliminar esta Habitacion?');">Eliminar</button>
+                </form>
+              </a>
+          
+        
+          <a href="{% url 'editar_producto' tipo='hotel_boutique' id=hotel_boutique.id %}" class="btn btn-primary"> Editar</a>     
+        <a class="reservar" href="{% url 'dashboard' %}">Regresar</a>     
+        </div>
+    {% endif %}    
+    </li>
+  </ul>
+</div>
+
+{%endblock%}

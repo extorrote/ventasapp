@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/index.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/headers.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/footers.css'%}">
+</head>
+    <header>
+    <div class="logo">
+        <img src="{%static '/images/logo.png'%}">
+    </div>
+</header>
+<body>
+
+<div class="body">
+
+    <div class="login"> 
+        <h2>Iniciar Sesión</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <label for="username">Usuario:</label>
+            <input type="text" name="username" id="username" required>
+    
+            <label for="password">Contraseña:</label>
+            <input type="password" name="password" id="password" required>
+    
+            <button type="submit">Entrar</button>
+        </form>
+    
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div> <!-- CIERRE DIV LOGIN -->
+    
+    
+
+
+    <div class="opciones-registro">
+            <h3 class="pre-registro_titulo">Registrate</h3>
+            <a href="{% url 'register_user' 'business_owner' %}">Soy Propietario de Negocio</a><br>
+            <a href="{% url 'registro_conductor' 'conductor' %}">Soy Conductor</a>
+        </div>
+
+
+        <div class="footer-content">
+            <div class="footer-info-container">
+                <div class="contact-methods">
+                    <a href="https://wa.me/+16159380458" class="social-icon whatsapp"></a>
+                    <a href="https://www.instagram.com/#" target="_blank" class="social-icon instagram"></a>
+                    <a href="https://www.facebook.com/LANDMARKPVR?mibextid=wwXIfr" target="_blank" class="social-icon facebook"></a>
+                    <!-- <a href="https://www.youtube.com/@casapv" target="_blank" class="social-icon youtube"></a> -->
+                </div>
+    
+            </div>
+
+    </div> <!-- ### CIERRE DIV BODY -->
+
+
+{%comment%}
+    <footer class="footer">
+        <div class="footer-form-container">
+            <h3 class="pre-registro_titulo"> Pre Registro </h3>
+            <form method="post" action="{% url 'pre_registro' %}">
+                {% csrf_token %}
+            
+                <!-- Show form errors -->
+                {% if form.errors %}
+                    <div class="error-list">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p style="color:red;">{{ field.label }}: {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p style="color:red;">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            
+                <!-- Optional: show success messages -->
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            
+                <!-- Form Fields with preserved values -->
+                <input type="text" name="company_name" placeholder="Nombre de tu Empresa (Opcional)" value="{{ form.company_name.value }}">
+                <input type="text" name="name" placeholder="Tu Nombre" value="{{ form.name.value }}" required>
+                <input type="email" name="email" placeholder="Tu Email" value="{{ form.email.value }}" required>
+                <input type="text" name="phone" placeholder="Numero de Telefono" value="{{ form.phone.value }}" required>
+                <textarea name="message" placeholder="Descripcion de tu Empresa(Opcional)" >{{ form.message.value }}</textarea>
+            
+                <button type="submit">Enviar</button>
+            </form>
+            
+        </div>
+       
+        {%comment%}
+        <div class="footer-links">
+            <a href="{% url 'privacy_policy' %}" class="footer-link">Privacy Policy</a> |
+            <a href="{% url 'terms_and_conditions' %}" class="footer-link">Terms and Conditions</a>
+            <a href="/about_us/" class="footer-link">About Us</a>
+        </div>
+        {%endcomment%}
+{%comment%}
+        <div class="footer-content">
+            <div class="footer-info-container">
+                <div class="contact-methods">
+                    <a href="https://wa.me/+17279468985" class="social-icon whatsapp"></a>
+                    <a href="https://www.instagram.com/#" target="_blank" class="social-icon instagram"></a>
+                    <a href="https://www.facebook.com/LANDMARKPVR?mibextid=wwXIfr" target="_blank" class="social-icon facebook"></a>
+                    <!-- <a href="https://www.youtube.com/@casapv" target="_blank" class="social-icon youtube"></a> -->
+                </div>
+    
+            </div>
+    
+            <div class="footer-info">
+                <p><strong>Telefono:</strong> +16159380458  </p>
+                <p><strong>Horas de Atencion:</strong> Lunes a Viernes, 10 AM - 6 PM</p>
+            </div>
+        </div>
+        <p class="footer-rights">&copy; 2025 Grupo Concierge. Todos los Derechos Reservados.</p>
+    </footer>
+    {%endcomment%}
+</body>
+</html>

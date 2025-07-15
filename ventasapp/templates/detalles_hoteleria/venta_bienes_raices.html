@@ -1,0 +1,130 @@
+{% extends 'detalles_hoteleria/base_detalles.html' %}
+{% block content %}
+<div class="body">
+  <ul class="product-grid">
+    <li class="product">
+      <h3 class="title">{{ bien_raiz.name }}</h3>
+
+      <!-- Image Slider -->
+      <div class="swiper swiper-container mySwiper-{{ bien_raiz.id }}">
+        <div class="swiper-wrapper">
+          {% if bien_raiz.image1 %}
+            <div class="swiper-slide"><img src="{{ bien_raiz.image1.url }}" alt="Imagen 1"></div>
+          {% endif %}
+          {% if bien_raiz.image2 %}
+            <div class="swiper-slide"><img src="{{ bien_raiz.image2.url }}" alt="Imagen 2"></div>
+          {% endif %}
+          {% if bien_raiz.image3 %}
+            <div class="swiper-slide"><img src="{{ bien_raiz.image3.url }}" alt="Imagen 3"></div>
+          {% endif %}
+          {% if bien_raiz.image4 %}
+            <div class="swiper-slide"><img src="{{ bien_raiz.image4.url }}" alt="Imagen 4"></div>
+          {% endif %}
+          {% if bien_raiz.image5 %}
+            <div class="swiper-slide"><img src="{{ bien_raiz.image5.url }}" alt="Imagen 5"></div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Property Info -->
+      <div class="business-info">
+
+
+         {%if bien_raiz.is_active %}
+          <div style="color:green; "><h4>Venta Activa </h4></div>
+          {%else%}
+          <div style="color:red;  "><h4>Propiedad Vendida </h4></div>
+          {%endif%}
+         <div><em>Tipo de propiedad:</em> {{ bien_raiz.tipo_de_propiedad }}</div>
+        <div><em>Precio:</em> ${{ bien_raiz.price }}</div>
+        <div><em>Recámaras:</em> {{ bien_raiz.bedrooms }}</div>
+        <div><em>Baños:</em> {{ bien_raiz.bathrooms }}</div>
+            <!-- Spaces -->
+        <div><em>Sala:</em> {{ bien_raiz.sala }}</div>
+        <div><em>Comedor:</em> {{ bien_raiz.comedor }}</div>
+        <div><em>Jardín:</em> {{ bien_raiz.jardin }}</div>
+        <div><em>Patio Trasero:</em> {{ bien_raiz.backyard }}</div>
+        <div><em>Cuarto de servicio:</em> {{ bien_raiz.cuarto_de_servicio }}</div>
+        <div><em>Rooftop:</em> {{ bien_raiz.rooftop }}</div>
+       
+
+        <!-- Property Details -->
+        
+        {% if bien_raiz.floor_number%}
+        <div><em>Número de Piso:</em> {{ bien_raiz.floor_number }}</div>
+        {%endif%}
+        {%if bien_raiz.elevador%}
+        <div><em>Elevador:</em> {{ bien_raiz.elevador }}</div>
+        {%endif%}
+
+        <div><em>Balcón:</em> {{ bien_raiz.balcony }}</div>
+        <div><em>Vista Primaria:</em> {{ bien_raiz.vista_primaria }}</div>
+        <div><em>Vista Secundaria:</em> {{ bien_raiz.vista_secundaria }}</div>
+
+        <!-- Amenities -->
+        <div><em>Amoblado:</em> {{ bien_raiz.amoblado }}</div>
+        <div><em>Agua Caliente:</em> {{ bien_raiz.hot_water }}</div>
+        <div><em>Aire Acondicionado:</em> {{ bien_raiz.air_conditioning }}</div>
+        <div><em>Ventiladores:</em> {{ bien_raiz.ventilador}}</div>
+        <div><em>Piscina:</em> {{ bien_raiz.piscina_publica }}</div>
+        <div><em>Jacuzzi:</em> {{ bien_raiz.jacuzzi }}</div>
+        <div><em>Cocina:</em> {{ bien_raiz.kitchen }}</div>   
+        {%if bien_raiz.appliances%}    
+        <div><em>Electrodomésticos:</em> {{ bien_raiz.appliances }}</div>
+        {%endif%}
+        <div><em>Estacionamiento:</em> {{ bien_raiz.parking|yesno:"Sí,No" }}</div>
+        <div><em>Tipo de Estasionamiento:</em> {{ bien_raiz.estasionamiento_details }}</div> 
+    
+
+        <!-- Property Conditions -->
+         <div><em>Colonia:</em> {{ bien_raiz.colonia }}</div>
+        <div><em>Superficie de construcción:</em> {{ bien_raiz.superficie_de_construccion }}</div>
+        <div><em>Medidas de la propiedad:</em> {{ bien_raiz.medidas_de_la_propiedad }}</div>
+        <div><em>Condiciones de la propiedad:</em> {{ bien_raiz.condiciones_de_la_propiedad }}</div>
+        <div><em>Privada o con escrituras:</em> {{ bien_raiz.privada_o_con_escrituras }}</div>
+        <div><em>Tipo de electricidad:</em> {{ bien_raiz.tipo_de_electricidad }}</div>
+        <div><em>Paredes:</em> {{ bien_raiz.paredes }}</div>
+        <div><em>Tipo de calle:</em> {{ bien_raiz.tipo_de_calle }}</div>
+    
+        <!-- Common Areas -->
+        <div><em>Áreas Comunes:</em> {{ bien_raiz.areas_comunes }}</div>
+         <div><em>Permiten Máscotas:</em> {{ bien_raiz.pet_friendly }}</div>
+         {%if  bien_raiz.comodidades_en_areas_comunes%}
+        <div><em>Comodidades en áreas comunes:</em> {{ bien_raiz.comodidades_en_areas_comunes }}</div>
+        {%endif%}
+
+        <div><em>Pago de Mantenimiento:</em> {{ bien_raiz.pago_de_mantenimiento }}</div>
+        {%if  bien_raiz.que_incluye_el_pago_de_mantenimiento %}
+        <div><em>Qué incluye el pago de mantenimiento:</em> {{ bien_raiz.que_incluye_el_pago_de_mantenimiento }}</div>
+        {%endif%}
+        <div><em>Agua:</em> {{ bien_raiz.agua }}</div>
+        
+      </div>
+
+      <!-- Description -->
+      <div class="div-descripcion">
+        <em>Descripción:</em>
+        <p>{{ bien_raiz.description }}</p>
+      </div>
+      {% if bien_raiz.google_maps %}
+      <div class="google_maps"><div> {{ bien_raiz.address }}</div> {{ bien_raiz.google_maps|safe }}</div>
+      {% endif %}
+      
+      {% if user.userprofile.role == 'business_owner' %}
+          <div class="botones-reservar carrito">            
+            <a>
+            <form action="{% url 'eliminar_producto_hoteleria' bien_raiz.id 'venta_bienes_raices' %}" method="post">
+                      {% csrf_token %}
+                      <button id="boton-eliminar"type="submit" onclick="return confirm('¿Estas Seguro que quieres Eliminar esta Propiedad?');">Eliminar</button>
+                  </form>
+                </a>         
+            <a href="{% url 'editar_producto' tipo='venta_bienes_raices' id=bien_raiz.id %}" class="btn btn-primary"> Editar</a>     
+          <a class="reservar" href="{% url 'dashboard' %}">Regresar</a>     
+          </div>
+      {% endif %} 
+    </li>
+  </ul>
+</div>
+{% endblock %}

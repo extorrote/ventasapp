@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/perfiles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/headers.css' %}">
+    <title>Mi Perfil</title>
+</head>
+<header>
+    <div class="logo">
+        <img src="{% static '/images/logo.png' %}" alt="Logo">
+    </div>
+</header>
+<body>
+    <div class="body">
+        <h2>👤 Mi Perfil Profesional</h2>
+
+        <div class="profile-container">
+            <div class="profile-header">
+                {% if profile.profile_picture %}
+                    <div class="profile-image">
+                        <img src="{{ profile.profile_picture.url }}" alt="Foto de perfil" width="150">
+                    </div>
+                {% else %}
+                    <div class="profile-image">
+                        <img src="{% static 'images/logo.png' %}" alt="Foto de perfil" width="150">
+                    </div>
+                {% endif %}
+                <div class="profile-info">
+                    
+                    <p><strong>Nombre de usuario:</strong> {{ user.username }}</p>
+                    {% if profile.is_approved %}
+                    <p><strong>Estado de cuenta:</strong> Aprobado  <img class="checked_icono" src="{%static 'images/checked.png'%}"></p>
+                    {% else %}
+                        <p><strong>Estado de cuenta:</strong> Pendiente de aprobación. Te notificaremos cuando tu cuenta sea aprobada.</p>
+                    {% endif %}
+                    <p><strong>Rol en la plataforma:</strong> {{ profile.get_role_display }}</p>
+                    <p><strong>Giro de Negocio:</strong> {{ profile.giro_de_negocio}}</p>
+                    <p><strong>Empresa:</strong> {{ profile.company_name }}</p>
+                    <p><strong>Nombre:</strong> {{ user.first_name }} </p>
+                    <p><strong>Apellido:</strong> {{ user.last_name }} </p>
+                    <p><strong>Ubicación:</strong> {{ profile.get_city_display }}</p>
+                    <p><strong>Telefono: </strong> {{ profile.telephone }} </p>                   
+                    <p><strong>Correo electrónico:</strong> {{ user.email }}</p>
+                    
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <a href="{% url 'edit_profile' %}" class="edit-btn">✏️ Editar Perfil</a>
+                <a href="{% url 'dashboard' %}" class="back-btn">← Volver inicio</a>
+            </div>
+        </div>
+    </div><!-- ##################### CIERRE DIV BODY-->
+</body>
+</html>

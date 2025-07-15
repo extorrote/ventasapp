@@ -1,0 +1,31 @@
+<!-- templates/redirect_to_stripe.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirigiendo al pago...</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <p>Redirigiéndote a Stripe para completar el pago...</p>
+
+    <script>
+        const stripe = Stripe("{{ stripe_publishable_key }}");
+        const businessId = "{{ business_id }}";
+
+        fetch(`/start-subscription-for-business/${businessId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.sessionId) {
+                    stripe.redirectToCheckout({ sessionId: data.sessionId });
+                } else {
+                    alert('Error al generar la sesión de Stripe.');
+                }
+            })
+            .catch(error => {
+                console.error("Error iniciando Stripe Checkout:", error);
+                alert("Hubo un error al iniciar el proceso de pago.");
+            });
+    </script>
+</body>
+</html>

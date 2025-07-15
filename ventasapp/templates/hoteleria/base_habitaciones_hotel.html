@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{% static 'css/dashboard2.css' %}">
+  <link rel="stylesheet" href="{% static '/css/headers.css' %}">
+  <link rel="stylesheet" href="{% static '/css/swiper_productos.css' %}">
+  <link rel="stylesheet" href="{% static '/css/footers.css' %}">
+  <link rel="stylesheet" href="{%static 'fuentes/fuentes.css'%}"><!--ESTO ES PARA CARGAR FUENTES NUEVAS-->
+
+  <!-- ESTO ES PARA PASAR LAS FOTOS  -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+  <!-- ESTO ES PARA PASAR LAS FOTOS TAMBIEN -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+  </div>
+</header>
+
+
+{%block content%}
+
+{%endblock%}
+
+
+
+
+<!-- Lightbox & Swiper Scripts -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="">
+    <span class="close" onclick="closeLightbox()">✖</span>
+    <span class="prev" onclick="changeLightbox(-1, event)">&#10094;</span>
+    <span class="next" onclick="changeLightbox(1, event)">&#10095;</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{% static '/js/swipers.js' %}"></script>
+
+</div> <!-- Close body -->
+
+<!-- Buttons -->
+<div class="botones-reservar carrito">
+  <a href="{% url 'dashboard' %}">Regresar</a>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-links">
+    <a class="footer-link">Privacy Policy</a> |
+    <a class="footer-link">Terms and Conditions</a>
+    <a class="footer-link">About Us</a>
+  </div>
+
+  <div class="footer-content">
+    <div class="footer-info-container">
+      <div class="contact-methods">
+        <a href="https://wa.me/+17279468985" class="social-icon whatsapp"></a>
+        <a href="https://www.instagram.com/#" class="social-icon instagram" target="_blank"></a>
+        <a href="https://www.facebook.com/LANDMARKPVR?mibextid=wwXIfr" class="social-icon facebook" target="_blank"></a>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      <p><strong>Telefono:</strong> +16159380458</p>
+      <p><strong>Horas de Atencion:</strong> Lunes a Viernes, 10 AM - 6 PM</p>
+    </div>
+  </div>
+
+  <p class="footer-rights">&copy; 2025 Grupo Concierge. Todos los Derechos Reservados.</p>
+</footer>
+
+</body>
+</html>

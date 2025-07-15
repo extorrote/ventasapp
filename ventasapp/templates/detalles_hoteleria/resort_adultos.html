@@ -1,0 +1,88 @@
+{%extends 'detalles_hoteleria/base_detalles.html'%}
+{%block content%}
+
+<div class="body">
+  <ul class="product-grid">
+    <li class="product">
+      <h3 class="title">{{ resort.name }}</h3>
+
+      <!-- Swiper Container -->
+      <div class="swiper swiper-container mySwiper-{{ resort.id }}">
+        <div class="swiper-wrapper">
+          {% if resort.image1 %}<div class="swiper-slide"><img src="{{ resort.image1.url }}" onclick="openLightbox('{{ resort.image1.url }}')"></div>{% endif %}
+          {% if resort.image2 %}<div class="swiper-slide"><img src="{{ resort.image2.url }}" onclick="openLightbox('{{ resort.image2.url }}')"></div>{% endif %}
+          {% if resort.image3 %}<div class="swiper-slide"><img src="{{ resort.image3.url }}" onclick="openLightbox('{{ resort.image3.url }}')"></div>{% endif %}
+          {% if resort.image4 %}<div class="swiper-slide"><img src="{{ resort.image4.url }}" onclick="openLightbox('{{ resort.image4.url }}')"></div>{% endif %}
+          {% if resort.image5 %}<div class="swiper-slide"><img src="{{ resort.image5.url }}" onclick="openLightbox('{{ resort.image5.url }}')"></div>{% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <div class="business-info">
+        <div><em>Tipo Subcategoría:</em> {{ resort.tipo_subcategoria }}</div>
+        <div><em>Ambiente:</em> {{ resort.tipo_de_ambiente }}</div>
+        <div><em>Solo Parejas:</em> {{ resort.solo_parejas|yesno:"Sí,No" }}</div>
+        <div><em>Precio:</em> ${{ resort.price }}</div>
+        <div><em>Experiencia Welcome:</em> {{ resort.experiencia_welcome }}</div>
+        <div><em>Actividades para Parejas:</em> {{ resort.actividades_para_parejas }}</div>
+
+        <div><em>Número de Camas:</em> {{ resort.numero_de_camas }}</div>
+        <div><em>Máx Personas:</em> {{ resort.max_people }}</div>
+        <div><em>Niños menores de 12:</em> {{ resort.children_under_12 }}</div>
+        <div><em>Fumar permitido:</em> {{ resort.smoking_allowed }}</div>
+        <div><em>Pet Friendly:</em> {{ resort.pet_friendly }}</div>
+
+        <div><em>Piso:</em> {{ resort.floor_number }}</div>
+        <div><em>Elevador:</em> {{ resort.elevador }}</div>
+        <div><em>Vista primaria:</em> {{ resort.vista_primaria }}</div>
+        <div><em>Vista secundaria:</em> {{ resort.vista_secundaria }}</div>
+        <div><em>Balcón:</em> {{ resort.balcony }}</div>
+
+        <div><em>Agua Caliente:</em> {{ resort.hot_water }}</div>
+        <div><em>Aire Acondicionado:</em> {{ resort.air_conditioning }}</div>
+        <div><em>Ventiladores:</em> {{ resort.ventilador}}</div>
+        <div><em>Gimnasio:</em> {{ resort.gym }}</div>
+        <div><em>Piscina Pública:</em> {{ resort.piscina_publica }}</div>
+        <div><em>Jacuzzi:</em> {{ resort.jacuzzi }}</div>
+        <div><em>WiFi:</em> {{ resort.wifi }}</div>
+        <div><em>Cocina:</em> {{ resort.kitchen }}</div>
+        <div><em>Electrodomésticos:</em> {{ resort.appliances }}</div>
+
+        <div><em>Check-in:</em> {{ resort.horario_checking }}</div>
+        <div><em>Check-out:</em> {{ resort.horario_checkout }}</div>
+        <div><em>Caja Fuerte:</em> {{ resort.caja_fuerte }}</div>
+        <div><em>Minibar:</em> {{ resort.minibar_incluido|yesno:"Sí,No" }}</div>
+        <div><em>Desayuno Incluido:</em> {{ resort.includes_breakfast|yesno:"Sí,No" }}</div>
+        <div><em>Estacionamiento:</em> {{ resort.parking|yesno:"Sí,No" }}</div>
+
+        <div><em>Sonido Premium:</em> {{ resort.sistema_sonido_premium|yesno:"Sí,No" }}</div>
+        <div><em>Iluminación Ambiental:</em> {{ resort.iluminacion_ambiente|yesno:"Sí,No" }}</div>
+        <div><em>Decoración Especial:</em> {{ resort.decoracion_especial }}</div>
+        <div><em>Entrada Privada:</em> {{ resort.entrada_privada|yesno:"Sí,No" }}</div>
+        <div><em>¿Está Disponible?:</em> {{ resort.is_active|yesno:"Sí,No" }}</div>
+        <div><em>Pertenece al Comercio:</em> {{ resort.business.commercial_name }}</div>
+
+      </div>
+
+      <div class="div-descripcion">
+        <em>Descripción:</em>
+        <p>{{ resort.description }}</p>
+      </div>
+
+      {% if user.userprofile.role == 'business_owner' %}onclick="return confirm('Are you sure you want to delete this tour?');"
+            <a>
+            <form action="{% url 'eliminar_producto_hoteleria' resort.id 'habitaciones_solo_adultos' %}" method="post">
+                      {% csrf_token %}
+                      <button id="boton-eliminar"type="submit" onclick="return confirm('¿Estas Seguro que quieres Eliminar esta Habitación?');">Eliminar</button>
+                  </form>
+                </a>         
+            <a href="{% url 'editar_producto' tipo='habitaciones_solo_adultos' id=resort.id %}" class="btn btn-primary"> Editar</a>     
+          <a class="reservar" href="{% url 'dashboard' %}">Regresar</a>     
+          </div>
+      {% endif %}
+    </li>
+  </ul>
+</div>
+
+{%endblock%}

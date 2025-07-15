@@ -1,0 +1,73 @@
+{% extends "hoteleria/base_habitaciones_hotel.html" %}
+{% block content %}
+
+<h2 class="title">TOURS {{ business.commercial_name }}</h2>
+
+<div class="body">
+  {% for tour in tours %}
+    <li class="product">
+      <h3 class="title">{{ tour.name }}</h3>
+
+      <!-- Swiper for Tour Images -->
+      <div class="swiper swiper-container mySwiper-{{ tour.id }}">
+        <div class="swiper-wrapper">
+          {% if tour.image1 %}
+            <div class="swiper-slide">
+              <img src="{{ tour.image1.url }}" onclick="openLightbox('{{ tour.image1.url }}')">
+            </div>
+          {% endif %}
+          {% if tour.image2 %}
+            <div class="swiper-slide">
+              <img src="{{ tour.image2.url }}" onclick="openLightbox('{{ tour.image2.url }}')">
+            </div>
+          {% endif %}
+          {% if tour.image3 %}
+            <div class="swiper-slide">
+              <img src="{{ tour.image3.url }}" onclick="openLightbox('{{ tour.image3.url }}')">
+            </div>
+          {% endif %}
+          {% if tour.image4 %}
+            <div class="swiper-slide">
+              <img src="{{ tour.image4.url }}" onclick="openLightbox('{{ tour.image4.url }}')">
+            </div>
+          {% endif %}
+          {% if tour.image5 %}
+            <div class="swiper-slide">
+              <img src="{{ tour.image5.url }}" onclick="openLightbox('{{ tour.image5.url }}')">
+            </div>
+          {% endif %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Price shown outside the details block -->
+      <div class="precio-fuera-details">
+        <em>Precio:</em> ${{ tour.price }}
+      </div>
+
+      <!-- Toggle Details Section -->
+      <details class="product-details">
+        <summary class="descripcion-menu-item">Ver Detalles</summary>
+
+        <em>Tipo de Tour:</em> <strong>{{ tour.tour_type }}</strong><br>
+        <em>Hora de Inicio:</em> <strong>{{ tour.starts_time }}</strong><br>
+        <em>Hora de Finalización:</em> <strong>{{ tour.ending_time }}</strong><br>
+        <em>Duración Total:</em> <strong>{{ tour.total_duration }}</strong><br>
+        <em>Máximo de Personas:</em> <strong>{{ tour.max_people }}</strong><br>
+        <em>Dificultad:</em> <strong>{{ tour.difficulty }}</strong><br>
+        <em>Incluye:</em> <strong>{{ tour.what_includes }}</strong><br>
+        <em>No Incluye:</em> <strong>{{ tour.what_doesnot_include }}</strong><br>
+        <em>Punto de Encuentro:</em> <strong>{{ tour.meeting_point }}</strong><br>
+
+        <a href="{% url 'tour_detail' tour.id %}" class="btn btn-primary">
+          Más Detalles
+        </a>
+      </details>
+    </li>
+  {% empty %}
+    <p>No hay tours disponibles para este negocio.</p>
+  {% endfor %}
+</div><!-- cierre body -->
+
+{% endblock %}
